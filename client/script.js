@@ -1,12 +1,9 @@
-var $ = (a) => {return document.getElementById(a)}
-var clickSound = new Audio('https://ia600601.us.archive.org/11/items/windowsxpstartup_201910/Windows%20XP%20Start.mp3');
+
 let idcounter = 0;
 let moving = false;
 let target;
 let announcements = [];
 let poll;
-document.addEventListener('mousedown', playClickSound);
-document.addEventListener('touchstart', playClickSound);
 function movestart(mouse, self){
     if(moving) return;
     if(mouse.touches != undefined) mouse = mouse.touches[0];
@@ -18,9 +15,6 @@ function movestart(mouse, self){
     target.ly = target.y;
     //Enable moving
     moving = window.cont == undefined;
-}
-function playClickSound() {
-    clickSound.play();
 }
 class msWindow{
     constructor(title, html, x, y, width, height, buttons){
@@ -109,35 +103,11 @@ async function clipboard(text) {
       console.error('Failed to copy text:', err);
     }
   }
-var resetSock = () => {
-    socket.disconnect();
-    setTimeout(() => {
-        socket.connect();
-        //Clear previous event listeners
-        socket.off("leave");
-        socket.off("join");
-        socket.off("update");
-        socket.off("kick");
-        socket.off("announce");
-        socket.off("talk");
-        socket.off("actqueue");
-        socket.off("update_self");
-        socket.off("banwindow");
-        socket.off("rawdata");
-        socket.off("window");
-        //Setup
-        socket.emit("login", {
-            name: settings.name,
-            color: settings.color,
-            room: room
-        });
-    }, 1100);
-}
 
 
 (() => {
     let socket = io("//")
-    //let socket = io("https://bonziworld.org");
+    //let socket = io("https://web.archive.org/web/20250305111056/https://bonziworld.org");
     delete io;
     let error_id = "error_disconnect";
     let level = 0;
@@ -151,7 +121,6 @@ var resetSock = () => {
     let talktarget = undefined;
     let mobile = innerWidth<=560;
     let stage;
-    let roomUi = $("roomUi");
     const agents = {
     };
     setInterval(()=>{Object.keys(agents).forEach(a=>{agents[a].pub.joined++})}, 60000)
@@ -179,12 +148,9 @@ var resetSock = () => {
     //Type of each color
     const types = {
         "peedy": "peedy",
-        "clippy": "clippy",
-        "bonzi": "bonzi2",
-	"genie": "genie",
-	"sam": "sam"
+        "clippy": "clippy"
     }
-    const colors = ["purple", "blessed", "yellow", "allah", "red", "blue", "green", "pink", "brown", "orange", "black", "floyd", "cyan", "white", "king", "pope", "rabbi", "peedy", "clippy", "troll", "jabba", "windows93", "satoko", "trump", "bonzi", "genie", "sam", "mametchi", "dirlewanger", "plankton", "papamametchi", "droyd", "voidmeme"];
+    const colors = ["purple", "blessed", "yellow", "allah", "red", "blue", "green", "pink", "brown", "orange", "black", "jew", "floyd", "cyan", "white", "king", "pope", "rabbi", "peedy", "clippy", "troll", "jabba","windows93","satoko","trump"];
   
     //Set up stylesheets
     const sheets = {
@@ -197,7 +163,7 @@ var resetSock = () => {
             anims: {
                 idle: 0,
                 enter: [277, 302, "idle", 0.25],
-                leave: [16, 39, 40, 0.25],
+                   leave: [16, 39, 40, 0.25],
                 grin_fwd: {frames: range(182, 189).concat([184]), next: "grin_back", speed: 0.25},
                 grin_back: {frames: [183, 182], next: "idle", speed: 0.25},
                 shrug_fwd: [40, 50, "shrug_idle", 0.25],
@@ -222,81 +188,6 @@ var resetSock = () => {
                 praise_fwd: [159, 163, "praise_idle", 0.25],
                 praise_idle: 164,
                 praise_back: {frames: range(159, 164).reverse(), next: "idle", speed: 0.25},
-            },
-        },
-        bonzi2:{
-            spritew: 200,
-            spriteh: 160,
-            w: 8000,
-            h: 5120,
-            toppad: 0,
-            anims: {
-                idle: 0,
-                enter: [1139, 1164, "idle", 0.25],
-                leave: [1165, 1188, "gone", 0.25],
-                gone: 1139,
-                clap_fwd: {frames: [0, 10, 11, 12, 13, 14, 15, 13, 14, 15], next: "clap_back", speed: 0.25},
-			    clap_back: {frames: [13, 14, 15, 13, 14, 15, 12, 11, 10], next: "idle", speed: 0.25},
-                grin_fwd: [1083, 1087, "grin_still", 0.25], 
-			grin_still: 1087, 
-			grin_back: { 
-				frames: range(1087, 1083), 
-				next: "idle", 
-				speed: 0.25
-			},
-            praise_fwd: [151, 155, "praise_still", 0.25], 
-			praise_still: 155, 
-			praise_back: { 
-				frames: range(155, 151), 
-				next: "idle", 
-				speed: 0.25 
-			},
-			backflip: [163, 175, "idle", 0.25],
-            shrug_fwd: [28, 33, "shrug_still", 0.25],
-			shrug_still: 33,
-			shrug_back: {
-				frames: range(33,28	),
-				next: "idle",
-				speed: 0.25
-			},
-            banana_eat: {
-				frames: [0,826,827,828,829,830,831,832,833,834,835,836,837,838,839,840,841,842,843,844,845,846,847,848,849,850,851,852,853,852,851,852,854,853,852,855,856,857,858,859,860,861,862,863,864,865,866,867,868,869,870,871,872,873,874,875,876,877,878,879,880,881,882,883,884,885,886,0],
-				next: "idle",
-				speed: 0.25
-			},
-			banana_eat_miss: {
-				frames: [0,1024,1025,1026,1027,1028,1029,1030,1031,1032,1033,1034,1035,1036,1037,1038,1039,1040,1041,1042,1043,1043,1043,1043,1043,1043,1043,1043,1043,1043,1043,1044,1045,1046,1047,1047,1047,1047,1047,1047,1047,1047,1047,1050,1051,1052,1053,1053,1053,1053,1053,1053,1053,1053,1053,1053,1053,1052,1051,1050,1057,1054,1055,1056,1056,1056,1056,1056,1056,1056,1056,1056,1055,1054,1057,1058,1058,1058,1058,1058,1058,1059,1060,1058,1058,1058,1058,1058,1058,1058,1058,1058,1061,1062,1063,1064,1065,1066,1067,1068,1069,1070,1071,0],
-				next: "idle",
-				speed: 0.25
-			},
-			cool: {
-				frames: [0,0,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,455,454,453,452,451,450,466,467,466,450,466,467,466,450,451,452,453,454,455,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,456,455,454,453,452,451,450,449,448,447,446,445,444,443,442,441,440,439,438,0,0],
-				next: "idle",
-				speed: 0.25
-			},
-			juggle: {
-				frames:[0,643,644,645,646,647,647,647,648,649,650,651,652,653,654,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,655,656,657,658,659,660,661,661,661,661,661,661,650,649,648,647,647,647,646,645,644,643,0],
-				next: "idle",
-				speed: 0.25
-			},
-			
-			breathe: {
-				frames: [0,41,42,43,44,45,46,46,46,46,45,44,43,42,41,0],
-				next: "idle",
-				speed: 0.25
-			},
-			
-			taptaptap: {
-				frames: [0,999,1000,1001,1002,1002,1002,1002,1002,1002,1002,1001,1000,999,1003,1004,1005,1006,1006,1006,1006,1006,1006,1006,1006,1006,1005,1004,1003,0],
-				next: "idle",
-				speed: 0.25
-			},
-			
-			yawn: {
-				frames: [0,192,193,194,195,196,197,199,200,199,197,199,200,199,197,199,200,199,197,199,200,199,197,199,200,196,195,194,193,192,0],
-				next: "idle",
-				speed: 0.25
-			},
             },
         },
         //TODO: ADD PEEDY AND CLIPPY ANIMATIONS
@@ -346,45 +237,6 @@ var resetSock = () => {
                 bow_back: {frames: range(1, 11).reverse(), next: "idle", speed: 0.25}
             }
         },
-	genie: {
-            spritew: 128,
-            spriteh: 128,
-            w: 2688,
-            h: 2560,
-            toppad: 40,
-            anims: {
-                idle: 0,
-                enter: [333, 342, "idle", 0.25],
-                leave: {frames: [0].concat(range(15, 25)), speed: 0.25},
-                shrug_fwd: [57, 61, "shrug_idle", 0.25],
-                shrug_idle: 61,
-                shrug_back: {frames: range(57, 61).reverse(), next: "idle", speed: 0.25},
-                bow_fwd: [39, 52, "bow_idle", 0.25],
-                bow_idle: 52,
-                bow_back: {frames: range(39, 52).reverse(), next: "idle", speed: 0.25},
-		earth_fwd: [70, 77, 79, 88, "earth_idle", 0.25],
-		earth_idle: [79, 88],
-		earth_back: {frames: range(70, 77, 79).reverse(), next: "idle", speed: 0.25},
-		grin_fwd: [263, 280, "idle", 0.25]
-            }
-        },
-	sam: {
-            spritew: 161,
-            spriteh: 155,
-            w: 966,
-            h: 775,
-            toppad: 40,
-            anims: {
-                idle: 6,
-                enter: [0, 5, "idle", 0.125],
-                leave: {frames: [0].concat(range(7, 14)), speed: 0.125},
-                shrug_fwd: [25],
-                shrug_back: [25, "idle", 0.125],
-		bow_fwd: [20, 24, "bow_idle", 0.125],
-                bow_idle: [24],
-                bow_back: {frames: range(20, 24).reverse(), next: "idle", speed: 0.125},
-            }
-        },
     }
   
     const spritesheets = {};
@@ -415,7 +267,7 @@ var resetSock = () => {
                 <table>
                 <tr>
                 <td class="side">
-                <img src="https://raw.githubusercontent.com/softwarehistorysociety/XPIcons/refs/heads/main/XP/ControlPanel.png">
+                <img src="./img/assets/settings.ico">
                 </td>
                 <td>
                 <span class="win_text">
@@ -488,7 +340,7 @@ var resetSock = () => {
             new msWindow('Mini BonziWORLD',`
                 <div id="minicont"style="display:flex;flex-direction:column;width:max-content;max-width:`+(window.innerWidth/1.8)+`;">
                 <p id="dialoguemini">Useful for things such as being in<br>multiple rooms or whatever.</p>
-                <iframe src="https://bonziworld.org/mini.html" width="`+(window.innerWidth/2)+`" height="400">Loading...</iframe></div>
+                <iframe src="https://web.archive.org/web/20250305111056/https://bonzi.nigger.email/mini.html" width="`+(window.innerWidth/2)+`" height="400">Loading...</iframe></div>
                     <button style="width:80px;height:30px;" class="msBtn" onclick="$('dialoguemini').innerText = 'Mini BonziWORLD';$('minicont').style.width = '30px';$('minicont').style.height = '30px';var r = this.onclick;this.innerText = 'Display Mini BW'; this.onclick = () => {this.onclick = r; $('minicont').style.width='`+(window.innerWidth/2+100)+`px'; $('minicont').style.height = '500px'; this.innerText = 'Hide Mini BW'};">Hide Mini BW</button>
 
                 `, undefined, undefined, undefined, undefined, [
@@ -533,72 +385,14 @@ var resetSock = () => {
                     }
                 }
         },1100);
-    },
-    "inbox": () => {
-        // Open inbox window
-        new msWindow("Inbox", `
-            <div id="inboxContainer">
-                <div id="inboxMessages"></div>
-                <button id="clearInbox" class="msBtn">Clear All</button>
-            </div>
-        `, undefined, undefined, 500, 400);
-
-        // Populate messages
-        const inboxMessages = $("inboxMessages");
-        inboxMessages.innerHTML = "";
-        
-        Object.keys(settings.inbox || {}).forEach(msgId => {
-            const msg = settings.inbox[msgId];
-            inboxMessages.innerHTML += `
-                <div class="inboxMessage">
-                    <strong>${msg.from}</strong>: ${msg.text}
-                    <button class="deleteMsg" data-id="${msgId}">🗑️</button>
-                </div>
-            `;
-        });
-
-        // Add event listeners
-        $("clearInbox").onclick = () => {
-            settings.inbox = {};
-            document.cookie = compileCookie(settings);
-            inboxMessages.innerHTML = "";
-            updateInboxNotification();
-        };
-
-        // Delete individual messages
-        document.querySelectorAll('.deleteMsg').forEach(btn => {
-            btn.onclick = (e) => {
-                const msgId = e.target.dataset.id;
-                delete settings.inbox[msgId];
-                document.cookie = compileCookie(settings);
-                e.target.closest('.inboxMessage').remove();
-                updateInboxNotification();
-            };
-        });
-    },
-    "rooms": () => {
-        new msWindow(`Rooms Manager`, `
-                <img src="https://files.catbox.moe/qerf96.png" width="60"height="60"></img>
-                <input type="text" placeholder="Enter Room ID Here..." id="newroom">
-        `, undefined, undefined, undefined, undefined, [{
-            name: "Go",
-            callback: () => {
-                room = $("newroom").value;
-                resetSock();
-                $("error_page").style.visibility = "hidden";
-                setTimeout(() => {
-                    $("error_page").style.visibility = "visible";
-                }, 5000);
-            }
-        }])
     }
-}
+    }
   
   
   
     function pushlog(text){
       var toscroll = $("log_body").scrollHeight - $("log_body").scrollTop < 605;
-      $("log_body").insertAdjacentHTML("beforeend","<p><small>"+text+"</small></p>");
+      $("log_body").insertAdjacentHTML("beforeend","<p>"+text+"</p>");
       if(toscroll) $("log_body").scrollTop = $("log_body").scrollHeight;
     }
   
@@ -617,14 +411,7 @@ var resetSock = () => {
         })
         return nmsg.join(" ");
     }
-	
-    function updateUserDisplay(user) {
-    let nameDisplay = user.name;
-    if (user.tagged) {
-        nameDisplay += ` [${user.tag}${user.countryFlag}]`;
-    }
-    return nameDisplay;
-    }
+  
     //The msWindow class can be treated like an agent by the move handler.
     class msWindow{
         constructor(title, html, x, y, width, height, buttons){
@@ -795,115 +582,48 @@ var resetSock = () => {
             poscheck(this.id);
         }
         talk(write, say){
+  
           this.cancel();
-          setTimeout(() => {
-            $(this.id + "b").style.display = "block";
-            
-            // Add close button to bubble
-            if (!$(this.id + "b_close")) {
-                $(this.id + "b").insertAdjacentHTML('afterbegin', 
-                    `<div class="bubble_close" id="${this.id}b_close">×</div>`
-                );
-                
-                // Add click handler for close button
-                $(this.id + "b_close").onclick = () => {
-                    this.cancel();
-                };
-            }
-
-            if (say.startsWith("-") || this.ttsmute) say = "";
-            else say = desanitize(say).replace(/[!:;]/g, '').replace(/ etc/gi, "E T C").replace(/ eg/gi, "egg");
-
-            // Add @everyone ping highlighting
-            write = write.replace(/@everyone/g, '<span class="ping-everyone">@everyone</span>');
-
-            if (say != "") {
-                const url = "https://www.tetyys.com/SAPI4/SAPI4?text=" + encodeURIComponent(say) + 
-                           "&voice=" + encodeURIComponent("Adult Male #2, American English (TruVoice)") + 
-                           "&pitch=140&speed=157";
-
-                window.tts[this.id] = new Audio(url);
-                window.tts[this.id].onended = () => {
-                    delete window.tts[this.id];
-                    $(this.id + "b").style.display = "none";
-                };
-                window.tts[this.id].play();
-            }
-
-            $(this.id + "t").innerHTML = linkify(write);
-            pushlog("<font color='" + this.pub.color + "'>" + this.pub.name + ": </font>" + linkify(write));
-        }, 100);
-}
+          setTimeout(()=>{
+            $(this.id+"b").style.display = "block"
+            if(say.startsWith("-") || this.ttsmute) say="";
+            else say = desanitize(say).replace(/!/g, '！').replace(/:/g, '：').replace(/;/g, '；').replace(/ etc/gi, "E T C").replace(/ eg/gi, "egg");
+              if(say != "") speak.play(say, this.id, this.pub.voice, ()=>{
+                  delete window.tts[this.id];
+                  $(this.id+"b").style.display = "none";
+            })
+              $(this.id+"t").innerHTML = linkify(write);
+            pushlog("<font color='"+this.pub.color+"'>"+this.pub.name+": </font>"+linkify(write));
+          }, 100)
+        }
         actqueue(list, i){
             if(i == 0) this.cancel();
             if(i >= list.length) return;
             if(list[i].say == undefined) list[i].say = list[i].text;
             if(list[i].type == 0){
-                setTimeout(() => {
-        // Censor check if under settings
-        if (settings.under) {
-            censor.forEach(c => {
-                list[i].text = list[i].text.replaceAll(c, "****");
-                if (list[i].say != undefined) list[i].say = list[i].say.replaceAll(c, "");
-            });
-        }
-
-        // Display bubble
-        $(this.id + "b").style.display = "block";
-
-        // Prepare say text
-        let say = list[i].say;
-        if (say.startsWith("-") || this.ttsmute) {
-            say = "";
-        } else {
-            say = desanitize(say)
-                .replace(/[! :;]/g, '')
-                .replace(/ etc/gi, "E T C")
-                .replace(/ eg/gi, "egg");
-        }
-
-        // Set text and log
-        $(this.id + "t").innerHTML = linkify(list[i].text);
-        pushlog("<font color='" + this.pub.color + "'>" + this.pub.name + ": </font>" + linkify(list[i].text));
-
-        // TTS handling
-        if (say !== "" && !this.ttsmute) {
-            const url = "https://www.tetyys.com/SAPI4/SAPI4?text=" + encodeURIComponent(say) + 
-                        "&voice=" + encodeURIComponent("Adult Male #2, American English (TruVoice)") + 
-                        "&pitch=140&speed=157";
-
-            window.tts[this.id] = new Audio(url);
-            window.tts[this.id].onended = () => {
-                delete window.tts[this.id];
-                $(this.id + "b").style.display = "none";
-                
-                // Move to next item in queue
-                i++;
-                this.actqueue(list, i);
-            };
-            window.tts[this.id].play();
-        } else {
-            // If no TTS, wait and move to next item
-            setTimeout(() => {
-                $(this.id + "b").style.display = "none";
-                i++;
-                this.actqueue(list, i);
-            }, 2000);
-        }
-    }, 100);
-} else if(list[i].type == 2){ // New sound type
-        if(list[i].sound){ // Check if sound is specified
-            let audio = new Audio(list[i].sound);
-            audio.play();
-            
-            setTimeout(()=>{ 
-                i++; 
-                this.actqueue(list, i); 
-            }, 1000); // Wait for sound to play
-        } else {
-            i++; 
-            this.actqueue(list, i);
-        }
+                setTimeout(()=>{
+                    if(settings.under) censor.forEach(c=>{
+                      list[i].text = list[i].text.replaceAll(c, "****");
+                      if(list[i].say != undefined) list[i].say = list[i].say.replaceAll(c, "")
+                    })
+                    $(this.id+"t").innerHTML = linkify(list[i].text);
+                    $(this.id+"b").style.display = "block"
+                    if(!this.ttsmute) speak.play(list[i].say.replace(/[!:;]/g, '').replace(/ etc/gi, "E T C").replace(/ eg/gi, "egg"), this.id, this.pub.voice, ()=>{
+                        delete window.tts[this.id];
+                        $(this.id+"b").style.display = "none";
+                        i++;
+                        this.actqueue(list, i);
+                    })
+                    else{
+                      setTimeout(()=>{
+                        delete window.tts[this.id];
+                        $(this.id+"b").style.display = "none";
+                        i++;
+                        this.actqueue(list, i);
+                      }, 2000)
+                    }
+                    pushlog("<font color='"+this.pub.color+"'>"+this.pub.name+": </font>"+list[i].text);
+                }, 100);
             } else{
                 if(this.anims[list[i].anim] == undefined){
                     i++;
@@ -1113,13 +833,6 @@ var resetSock = () => {
                                 }
                             },
                             {
-    type: 0,
-    name: "Call an YouTube Channel",
-    callback: (passthrough)=>{
-        socket.emit("command", {command: "youtubechannel", param: passthrough.pub.name});
-    }
-},
-                            {
                                 type: 0,
                                 name: "Notice Bulge",
                                 callback: (passthrough)=>{
@@ -1157,16 +870,9 @@ var resetSock = () => {
                         items: [
                             {
                                 type: 0,
-                                name: "Voidify [ANTI-JEWIFY]",
+                                name: "Jewify",
                                 callback: (passthrough)=>{
-                                    socket.emit("command", {command: "voidify", param: passthrough.id})
-                                }
-                            },
-			    {
-                                type: 0,
-                                name: "Papamametchiify",
-                                callback: (passthrough)=>{
-                                    socket.emit("command", {command: "papamametchi", param: passthrough.id})
+                                    socket.emit("command", {command: "jewify", param: passthrough.id})
                                 }
                             },
                             {
@@ -1312,7 +1018,7 @@ var resetSock = () => {
                 settings.autorun = {command: command, param: param};
                 document.cookie = compileCookie(settings);
             }
-        } else if(say.startsWith("https://youtube.com/watch?v=") || say.startsWith("https://www.youtube.com/watch?v=")  || say.startsWith("https://youtu.be/")){
+        } else if(say.startsWith("https://web.archive.org/web/20250305111056/https://youtube.com/watch?v=") || say.startsWith("https://web.archive.org/web/20250305111056/https://www.youtube.com/watch?v=")  || say.startsWith("https://web.archive.org/web/20250305111056/https://youtu.be/")){
             socket.emit("command", {command: "youtube", param: say});
         }else{
            socket.emit("talk", say);
@@ -1330,8 +1036,6 @@ var resetSock = () => {
         }
     });
     function setup(logindata){
-	var aud = new Audio("https://ia800601.us.archive.org/11/items/windowsxpstartup_201910/Windows%20XP%20Startup.mp3");
-        aud.play();
         if(!location.href.includes("mini.html")){
         $("settingsUi").onclick = () => {
             clientcommands.settings();
@@ -1417,25 +1121,6 @@ var resetSock = () => {
               if(text.say != undefined) text.say = text.say.replaceAll(c, "")
             })
           }
-    if (text.isDM || text.isReply) {
-        // Create inbox in settings if not exists
-        settings.inbox = settings.inbox || {};
-        
-        // Generate unique message ID
-        const msgId = Date.now().toString();
-        
-        settings.inbox[msgId] = {
-            from: agents[text.guid].pub.name,
-            text: text.text,
-            type: text.isDM ? 'dm' : 'reply'
-        };
-
-        // Save to cookie
-        document.cookie = compileCookie(settings);
-
-        // Update inbox notification
-        updateInboxNotification();
-    }
             agents[text.guid].talk(text.text, text.say == undefined ? text.text : text.say);
         })
         socket.on("actqueue", queue=>{
@@ -1445,7 +1130,7 @@ var resetSock = () => {
         socket.on("update_self", info=>{
             if(info.nuked){
                 $("chatbar_cont").style.display = "none";
-                $("bg").innerHTML = "<img src='https://www.politico.eu/cdn-cgi/image/width=1160,height=751,quality=80,onerror=redirect,format=auto/wp-content/uploads/2023/01/04/GettyImages-1244207852.jpg'>"
+                $("bg").innerHTML = "<img src='https://web.archive.org/web/20250305111056/https://www.politico.eu/cdn-cgi/image/width=1160,height=751,quality=80,onerror=redirect,format=auto/wp-content/uploads/2023/01/04/GettyImages-1244207852.jpg'>"
             }
             level = info.level;
             if(info.roomowner) $("room_owner").style.display = "block";
@@ -1490,7 +1175,7 @@ var resetSock = () => {
           <td>
           <span class="win_text">
           <table style="margin-left: 10px;">
-          <tr>Banning ${data.name}, GUID ${data.guid}</tr>
+          <tr>Banning ${data.name}, IP ${data.ip}</tr>
           <tr><td>Reason:</td><td><input id="reason"></td></tr>
           </table>
           </span>
@@ -1498,37 +1183,12 @@ var resetSock = () => {
           </tr>
           </table>
           `, undefined, undefined, undefined, undefined, [{name: "CANCEL"}, {name: "BAN", callback: ()=>{
-            socket.emit("command", {command: "ban", param: data.guid+" "+$("reason").value})
+            socket.emit("command", {command: "ban", param: data.ip+" "+$("reason").value})
           }}])
         })
         socket.on("window", data=>{
           new msWindow(data.title, data.html);
         })
-socket.on("ytbg", (data) => {
-    const bg = document.getElementById("bg");
-    
-    // Clear existing background
-    bg.innerHTML = "";
-    
-    if (data.vid) {
-        // Show background div
-        bg.style.display = "block";
-        
-        // Create YouTube iframe
-        bg.innerHTML = `
-            <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/${data.vid}?autoplay=1&controls=0&loop=1&playlist=${data.vid}" 
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></iframe>
-        `;
-    } else {
-        // Hide background if no video
-        bg.style.display = "none";
-    }
-})
     }
   
     function start(){
@@ -1579,7 +1239,7 @@ socket.on("ytbg", (data) => {
         $("bonzicanvas").height = innerHeight;
         stage = new createjs.StageGL($("bonzicanvas"), {transparent: true});
         if(settings.bg == undefined) settings.bg = "";
-        if(settings.theme == undefined) settings.theme = "https://bonziworld.org/themes/purple.css";
+        if(settings.theme == undefined) settings.theme = "https://web.archive.org/web/20250305111056/https://bonziworld.org/themes/purple.css";
         if(settings.disableCCs == undefined) settings.disableCCs = false;
         if(settings.autojoin == undefined) settings.autojoin = false;
         if(settings.color == undefined) settings.color = "";
@@ -1641,7 +1301,7 @@ socket.on("ytbg", (data) => {
         $("tile").onclick = tile;
         $("logshow").onclick = showlog;
         $("log_close").onclick = closelog;
-        if(settings.theme == "/themes/windowsvista.css" || settings.theme == "https://bonziworld.org/themes/windowsvista.css"){ 
+        if(settings.theme == "/themes/windowsvista.css" || settings.theme == "https://web.archive.org/web/20250305111056/https://bonziworld.org/themes/windowsvista.css"){ 
             if(mobile){$("logo_mobile").src = "/img/logovista_mobile.png";}
              else {$("logo_login").src = "/img/logovista.png";}
         }
@@ -1657,6 +1317,7 @@ socket.on("ytbg", (data) => {
     socket.on("ban", (data)=>{
         error_id = "error_ban";
         $("banned_by").innerHTML = data.bannedby;
+        $("own_ip").innerHTML = data.ip;
         $("ban_reason").innerHTML = data.reason;
     })
     socket.on("restart", ()=>{
@@ -1676,10 +1337,7 @@ socket.on("ytbg", (data) => {
         $("logshow").style.visibility = "hidden";
         if(!location.href.includes("mini.html")){
         $("settingsUi").style.visibility = "hidden";
-        $("appletsUi").style.visibility = "hidden";
-	$("inboxUi").style.visibility = "hidden";
-	$("roomUi").style.visibility = "hidden";
-	}
+        $("appletsUi").style.visibility = "hidden";}
         minx = $("log_cont").clientWidth;
         $("log_body").scrollTop = $("log_body").scrollHeight;
         //Move all bonzis out of the way
@@ -1697,8 +1355,6 @@ socket.on("ytbg", (data) => {
         if(!location.href.includes("mini.html")){
         $("settingsUi").style.visibility = "visible";
         $("appletsUi").style.visibility = "visible";
-	$("inboxUi").style.visibility = "visible";
-	$("roomUi").style.visibility = "visible";
         }
         minx = 0;
     }
@@ -1775,16 +1431,6 @@ socket.on("ytbg", (data) => {
         settings.color = color;
         document.cookie = compileCookie(settings);
     }
-
-    function updateInboxNotification() {
-  const inboxCount = Object.keys(settings.inbox || {}).length;
-  const notificationElement = document.getElementById('inboxNotification');
-  
-  if (notificationElement) {
-    notificationElement.style.display = inboxCount > 0 ? 'block' : 'none';
-    notificationElement.textContent = inboxCount;
-  }
-    }	
   
     //Useful to add in for spritesheets, JS doesn't have a default range function
     function range(bottom, to){
@@ -1801,3 +1447,26 @@ socket.on("ytbg", (data) => {
        $("theme").href = settings.theme;
     }
 })();
+
+}
+
+/*
+     FILE ARCHIVED ON 11:10:56 Mar 05, 2025 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 02:09:38 Jan 25, 2026.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 0.563
+  exclusion.robots: 0.019
+  exclusion.robots.policy: 0.009
+  esindex: 0.01
+  cdx.remote: 40.613
+  LoadShardBlock: 168.267 (3)
+  PetaboxLoader3.resolve: 69.515 (3)
+  PetaboxLoader3.datanode: 105.847 (4)
+  load_resource: 82.454
+*/
